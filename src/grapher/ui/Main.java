@@ -10,7 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import grapher.fc.Function;
 
@@ -25,14 +28,28 @@ public class Main extends JFrame {
 		JList<Function> list = new JList<Function>();
 		DefaultListModel<Function> listmodel = new DefaultListModel<Function>();
 		list.setModel(listmodel);
+		ListSelectionModel listselectionmodel = list.getSelectionModel();
 
-		Grapher grapher = new Grapher(listmodel);
+		Grapher grapher = new Grapher(listmodel, listselectionmodel);
 		for (String expression : expressions) {
 			grapher.add(expression);
 		}
 
 		InteractionGrapher i = new InteractionGrapher(grapher);
 		grapher.addInteractionGrapher(i);
+		list.addListSelectionListener(new ListSelectionListener() {
+			Grapher grapher;
+
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				grapher.repaint();
+			}
+
+			public ListSelectionListener addgrapher(Grapher grapher) {
+				this.grapher = grapher;
+				return this;
+			}
+		}.addgrapher(grapher));
 
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(list, BorderLayout.CENTER);

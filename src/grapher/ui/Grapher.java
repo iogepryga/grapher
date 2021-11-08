@@ -15,10 +15,12 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.Point;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 import java.util.Vector;
 
@@ -44,14 +46,16 @@ public class Grapher extends JPanel {
 	protected InteractionGrapher interaction;
 
 	protected DefaultListModel<Function> functions;
+	ListSelectionModel listselectionmodel;
 
-	public Grapher(DefaultListModel<Function> functions) {
+	public Grapher(DefaultListModel<Function> functions, ListSelectionModel listselectionmodel) {
 		xmin = -PI / 2.;
 		xmax = 3 * PI / 2;
 		ymin = -1.5;
 		ymax = 1.5;
 
 		this.functions = functions;
+		this.listselectionmodel = listselectionmodel;
 	}
 
 	public Dimension getPreferredSize() {
@@ -121,8 +125,11 @@ public class Grapher extends JPanel {
 			for (int i = 0; i < N; i++) {
 				Ys[i] = Y(f.y(xs[i]));
 			}
-
+			Stroke savedStroke = g2.getStroke();
+			if(listselectionmodel.isSelectedIndex(ifu))
+				g2.setStroke(new BasicStroke(3));
 			g2.drawPolyline(Xs, Ys, N);
+			g2.setStroke(savedStroke);
 		}
 
 		g2.setClip(null);
