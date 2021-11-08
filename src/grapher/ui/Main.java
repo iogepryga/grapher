@@ -6,10 +6,12 @@ package grapher.ui;
 import java.awt.BorderLayout;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
@@ -50,9 +52,20 @@ public class Main extends JFrame {
 				return this;
 			}
 		}.addgrapher(grapher));
-
+		
+		DelFunctionAction delaction = new DelFunctionAction(grapher,listmodel,listselectionmodel);
+		AddFunctionAction addaction = new AddFunctionAction(grapher,listmodel);
+		JButton addbutton = new JButton("+ Add");
+		JButton delbutton = new JButton("- Del");
+		addbutton.setAction(addaction);
+		delbutton.setAction(delaction);
+		JToolBar toolbar = new JToolBar();
+		toolbar.add(addbutton);
+		toolbar.add(delbutton);
+		
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(list, BorderLayout.CENTER);
+		panel.add(toolbar,BorderLayout.SOUTH);
 
 		JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, grapher);
 
