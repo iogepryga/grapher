@@ -9,6 +9,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -69,6 +72,17 @@ public class Main extends JFrame {
 
 		JSplitPane splitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panel, grapher);
 
+		JMenuBar menubar = new JMenuBar();
+		setJMenuBar(menubar);
+		JMenu expressionmenu = new JMenu("Expression");
+		menubar.add(expressionmenu);
+		JMenuItem additem = new JMenuItem("Add expression");
+		additem.addActionListener(addaction);
+		expressionmenu.add(additem);
+		JMenuItem delitem = new JMenuItem("Remove expression");
+		delitem.addActionListener(delaction);
+		expressionmenu.add(delitem);
+		
 		add(splitpane);
 		pack();
 	}
