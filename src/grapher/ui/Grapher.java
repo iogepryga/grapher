@@ -17,6 +17,7 @@ import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import java.awt.Point;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
 import java.util.Vector;
@@ -42,15 +43,15 @@ public class Grapher extends JPanel {
 
 	protected InteractionGrapher interaction;
 
-	protected Vector<Function> functions;
+	protected DefaultListModel<Function> functions;
 
-	public Grapher() {
+	public Grapher(DefaultListModel<Function> functions) {
 		xmin = -PI / 2.;
 		xmax = 3 * PI / 2;
 		ymin = -1.5;
 		ymax = 1.5;
 
-		functions = new Vector<Function>();
+		this.functions = functions;
 	}
 
 	public Dimension getPreferredSize() {
@@ -64,7 +65,7 @@ public class Grapher extends JPanel {
 	}
 
 	void add(Function function) {
-		functions.add(function);
+		functions.addElement(function);
 		repaint();
 	}
 
@@ -113,7 +114,8 @@ public class Grapher extends JPanel {
 			Xs[i] = X(x);
 		}
 
-		for (Function f : functions) {
+		for(int ifu = 0; ifu < functions.size(); ifu++) {
+			Function f = functions.get(ifu);
 			// y values
 			int Ys[] = new int[N];
 			for (int i = 0; i < N; i++) {
