@@ -18,6 +18,8 @@ public class Main extends JFrame {
 		for(String expression: expressions) {
 			grapher.add(expression);
 		}
+		InteractionGrapher i = new InteractionGrapher(grapher);
+		grapher.addInteractionGrapher(i);
 		
 		add(grapher);
 		pack();
